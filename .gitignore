@@ -1,0 +1,6 @@
+/.direnv
+/.pre-commit-config.yaml
+.terraform/**
+.terraform*
+/terraform/show.json
+terraform.tfstate*
