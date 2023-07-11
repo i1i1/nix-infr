@@ -8,11 +8,11 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
-    simple-nixos-mailserver = {
-      url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.utils.follows = "flake-utils";
-    };
+    # simple-nixos-mailserver = {
+    #   url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    #   inputs.utils.follows = "flake-utils";
+    # };
   };
 
   outputs =
@@ -20,7 +20,6 @@
     , nixpkgs
     , flake-utils
     , pre-commit-hooks
-    , simple-nixos-mailserver
     , ...
     }:
     flake-utils.lib.eachDefaultSystem
@@ -65,14 +64,14 @@
           ];
         };
 
-        mail = {
-          deployment.targetUser = "nixos";
-          deployment.targetHost = "64.176.66.236";
-          imports = [
-            simple-nixos-mailserver.nixosModule
-            ./hosts/mail.nix
-          ];
-        };
+        # mail = {
+        #   deployment.targetUser = "nixos";
+        #   deployment.targetHost = "mail.thatsverys.us";
+        #   imports = [
+        #     simple-nixos-mailserver.nixosModule
+        #     ./hosts/mail.nix
+        #   ];
+        # };
       };
     }
   ;
