@@ -45,11 +45,26 @@
 
           packages = with pkgs; [
             colmena
+            wireguard-tools
             terraform
             terraform-providers.vultr
             vultr-cli
           ];
         };
+
+        apps.qr-code =
+          let
+            qr_code_shell_app = with pkgs; writeShellApplication {
+              name = "generate-qr-code";
+              checkPhase = ":";
+              runtimeInputs = [ colmena jq qrencode rbw ];
+              text = builtins.readFile ./generate-qr-code.sh;
+            };
+          in
+          {
+            type = "app";
+            program = "${qr_code_shell_app}/bin/generate-qr-code";
+          };
       }) // {
       colmena = {
         meta.nixpkgs = import nixpkgs {
@@ -61,6 +76,14 @@
             "${nixpkgs}/nixos/modules/profiles/headless.nix"
             "${nixpkgs}/nixos/modules/profiles/minimal.nix"
             ./hosts/defaults.nix
+          ];
+        };
+
+        vpn = {
+          deployment.targetUser = "nixos";
+          deployment.targetHost = "vpn.thatsverys.us";
+          imports = [
+            ./hosts/vpn.nix
           ];
         };
 

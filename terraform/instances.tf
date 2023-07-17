@@ -2,6 +2,20 @@ resource "vultr_dns_domain" "domain" {
   domain = "thatsverys.us"
 }
 
+resource "vultr_instance" "vpn" {
+  label       = "mail"
+  plan        = var.one_cpu_one_gb_ram
+  region      = var.europe
+  snapshot_id = var.nixos_snapshot_id_25gb
+}
+
+resource "vultr_dns_record" "a_vpn" {
+  domain = vultr_dns_domain.domain.id
+  name   = "vpn"
+  data   = vultr_instance.vpn.main_ip
+  type   = "A"
+}
+
 # resource "vultr_instance" "mail" {
 #   label       = "mail"
 #   plan        = var.one_cpu_one_gb_ram
