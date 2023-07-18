@@ -87,6 +87,14 @@
           ];
         };
 
+        nextcloud = {
+          deployment.targetUser = "nixos";
+          deployment.targetHost = "nc.thatsverys.us";
+          imports = [
+            ./hosts/nextcloud.nix
+          ];
+        };
+
         # mail = {
         #   deployment.targetUser = "nixos";
         #   deployment.targetHost = "mail.thatsverys.us";

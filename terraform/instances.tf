@@ -4,9 +4,10 @@ resource "vultr_dns_domain" "domain" {
 
 resource "vultr_instance" "vpn" {
   label       = "mail"
-  plan        = var.one_cpu_one_gb_ram
+  plan        = var.one_cpu_one_gb_ram_25gb_ssd
   region      = var.europe
   snapshot_id = var.nixos_snapshot_id_25gb
+  backups     = "disabled"
 }
 
 resource "vultr_dns_record" "a_vpn" {
@@ -16,9 +17,27 @@ resource "vultr_dns_record" "a_vpn" {
   type   = "A"
 }
 
+resource "vultr_instance" "nextcloud" {
+  label       = "nextcloud"
+  plan        = var.two_cpu_four_gb_ram
+  region      = var.europe
+  snapshot_id = var.nixos_snapshot_id_100gb_ssd
+  backups     = "enabled"
+  backups_schedule {
+    type = "monthly"
+  }
+}
+
+resource "vultr_dns_record" "a_nextcloud" {
+  domain = vultr_dns_domain.domain.id
+  name   = "nc"
+  data   = vultr_instance.nextcloud.main_ip
+  type   = "A"
+}
+
 # resource "vultr_instance" "mail" {
 #   label       = "mail"
-#   plan        = var.one_cpu_one_gb_ram
+#   plan        = var.one_cpu_one_gb_ram_25gb_ssd
 #   region      = var.europe
 #   snapshot_id = var.nixos_snapshot_id_25gb
 # }
