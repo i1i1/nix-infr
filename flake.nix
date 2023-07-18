@@ -31,12 +31,21 @@
         checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
+            # Github actions
             actionlint.enable = true;
+
+            # nix
             deadnix.enable = true;
             nixpkgs-fmt.enable = true;
             statix.enable = true;
+
+            # terraform
             terraform-format.enable = true;
             tflint.enable = true;
+
+            # Shell
+            shellcheck.enable = true;
+            shfmt.enable = true;
           };
         };
 
