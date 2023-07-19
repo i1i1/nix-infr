@@ -1,0 +1,25 @@
+name: Build and lint
+on:
+  push:
+
+jobs:
+  build:
+    name: Lint and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v4
+
+      - name: Enable Binary Cache
+        uses: cachix/cachix-action@v12
+        with:
+          name: i1i1-colmena
+          authToken: '${{ secrets.CACHIX_TOKEN }}'
+
+      - name: Lint
+        run: nix flake check
+
+      - name: Build
+        run: nix develop -c colmena build
