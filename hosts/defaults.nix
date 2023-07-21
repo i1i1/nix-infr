@@ -22,18 +22,9 @@
 
   networking.hostName = name; # Define your hostname.
 
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "root" "nixos" "i1i1" ];
-    };
-
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    trusted-users = [ "root" "nixos" "i1i1" ];
   };
 
   time.timeZone = "Europe/Moscow";
@@ -56,7 +47,7 @@
   security.sudo.wheelNeedsPassword = false;
 
   services.openssh.enable = true;
-  services.openssh.passwordAuthentication = false;
+  services.openssh.settings.PasswordAuthentication = false;
   services.openssh.settings.PermitRootLogin = "no";
 
   system.stateVersion = "23.05";
