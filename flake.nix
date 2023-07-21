@@ -52,47 +52,49 @@
         devShells.default = pkgs.mkShell {
           inherit (self.checks.${system}.pre-commit-check) shellHook;
 
-          packages = with pkgs; [
+          packages = with pkgs; with  self.packages.${system}; [
             colmena
             wireguard-tools
             terraform
             terraform-providers.vultr
             vultr-cli
+            deploy-configuration
+            generate-qr-code
           ];
         };
 
-        apps.apply =
-          let
-            apply_shell_app = with pkgs; writeShellApplication {
-              name = "apply";
-              checkPhase = ":";
-              runtimeInputs = [ colmena rbw ];
-              text = ''
-                set -ex
-                colmena apply "$@"
-                colmena exec -- sudo nix-collect-garbage -dv
-                colmena exec -- sudo nix-store --optimise -v
-              '';
-            };
-          in
-          {
-            type = "app";
-            program = "${apply_shell_app}/bin/apply";
+        packages = with pkgs; {
+          deploy-configuration = writeShellApplication {
+            name = "deploy-configuration";
+            checkPhase = ":";
+            runtimeInputs = [ colmena rbw ];
+            text = ''
+              set -ex
+              colmena apply "$@"
+              colmena exec "$@" -- sudo nix-collect-garbage -dv
+              colmena exec "$@" -- sudo nix-store --optimise -v
+            '';
           };
 
-        apps.qr-code =
-          let
-            qr_code_shell_app = with pkgs; writeShellApplication {
-              name = "generate-qr-code";
-              checkPhase = ":";
-              runtimeInputs = [ colmena jq qrencode rbw ];
-              text = builtins.readFile ./generate-qr-code.sh;
-            };
-          in
-          {
-            type = "app";
-            program = "${qr_code_shell_app}/bin/generate-qr-code";
+          generate-qr-code = writeShellApplication {
+            name = "generate-qr-code";
+            checkPhase = ":";
+            runtimeInputs = [ colmena jq qrencode rbw ];
+            text = builtins.readFile ./generate-qr-code.sh;
           };
+        };
+
+        apps = {
+          deploy-configuration = {
+            type = "app";
+            program = "${self.packages.${system}.deploy-configuration}/bin/deploy-configuration";
+          };
+          generate-qr-code = {
+            type = "app";
+            program = "${self.packages.${system}.generate-qr-code}/bin/generate-qr-code";
+          };
+        };
+
       }) // {
       colmena = {
         meta.nixpkgs = import nixpkgs {
