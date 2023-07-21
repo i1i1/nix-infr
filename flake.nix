@@ -61,6 +61,25 @@
           ];
         };
 
+        apps.apply =
+          let
+            apply_shell_app = with pkgs; writeShellApplication {
+              name = "apply";
+              checkPhase = ":";
+              runtimeInputs = [ colmena rbw ];
+              text = ''
+                set -ex
+                colmena apply "$@"
+                colmena exec -- sudo nix-collect-garbage -dv
+                colmena exec -- sudo nix-store --optimise -v
+              '';
+            };
+          in
+          {
+            type = "app";
+            program = "${apply_shell_app}/bin/apply";
+          };
+
         apps.qr-code =
           let
             qr_code_shell_app = with pkgs; writeShellApplication {
