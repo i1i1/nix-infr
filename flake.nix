@@ -101,39 +101,22 @@
           system = "x86_64-linux";
           overlays = [ ];
         };
+
         defaults = {
           imports = [
             "${nixpkgs}/nixos/modules/profiles/headless.nix"
             "${nixpkgs}/nixos/modules/profiles/minimal.nix"
-            ./hosts/defaults.nix
+            ./modules/defaults.nix
           ];
         };
 
-        vpn = {
+        server = {
           deployment.targetUser = "nixos";
-          deployment.targetHost = "vpn.thatsverys.us";
+          deployment.targetHost = "sx.thatsverys.us";
           imports = [
-            ./hosts/vpn.nix
-            {
-              features.vpn.wireguard = {
-                enable = true;
-                serverKeyCommand = [ "rbw" "get" "--folder" "wireguard" "server" ];
-                pubkeys = [
-                  "u6OpMKjB89S25tYjIsUZnGB9Jabu0L0/vQzObTk28HA="
-                  "9s/ZsJg1SIqQmEl0CmyLZs/yGcg/YUwMBbIcCwFRt0g="
-                  "E27NpaVSoPnQ4otoKSz6Yv8c3TQ9vADZPUtuhrprdVg="
-                  "Y5UxdQH5cBPjAbnZ3trCKSLLeB7ubYYWohgKhNM5ukI="
-                ];
-              };
-            }
-          ];
-        };
-
-        nextcloud = {
-          deployment.targetUser = "nixos";
-          deployment.targetHost = "nc.thatsverys.us";
-          imports = [
-            ./hosts/nextcloud.nix
+            ./modules/nextcloud.nix
+            ./modules/vpn.nix
+            ./modules/searx.nix
             {
               networking.firewall.allowedTCPPorts = [ 80 443 ];
 
@@ -145,20 +128,17 @@
                 serverKeyCommand = [ "rbw" "get" "nextcloud-admin-pass" ];
                 hostName = "nc.thatsverys.us";
               };
-            }
-          ];
-        };
 
-        searx = {
-          deployment.targetUser = "nixos";
-          deployment.targetHost = "sx.thatsverys.us";
-          imports = [
-            ./hosts/searx.nix
-            {
-              networking.firewall.allowedTCPPorts = [ 80 443 ];
-
-              security.acme.acceptTerms = true;
-              security.acme.defaults.email = "vanyarybin1@live.ru";
+              features.vpn.wireguard = {
+                enable = true;
+                serverKeyCommand = [ "rbw" "get" "--folder" "wireguard" "server" ];
+                pubkeys = [
+                  "u6OpMKjB89S25tYjIsUZnGB9Jabu0L0/vQzObTk28HA="
+                  "9s/ZsJg1SIqQmEl0CmyLZs/yGcg/YUwMBbIcCwFRt0g="
+                  "E27NpaVSoPnQ4otoKSz6Yv8c3TQ9vADZPUtuhrprdVg="
+                  "Y5UxdQH5cBPjAbnZ3trCKSLLeB7ubYYWohgKhNM5ukI="
+                ];
+              };
 
               features.service.searx = {
                 enable = true;

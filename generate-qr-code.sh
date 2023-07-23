@@ -3,10 +3,10 @@
 vpnInfo() {
 	colmena eval -E \
 		"{ nodes, lib, ... }:
-        with nodes.vpn.config.networking.wg-quick.interfaces.wg0;
+        with nodes.server.config;
         {
-          inherit peers address listenPort;
-          inherit (nodes.vpn.config.deployment) targetHost;
+          inherit (networking.wg-quick.interfaces.wg0) peers address listenPort;
+          inherit (deployment) targetHost;
         }"
 }
 

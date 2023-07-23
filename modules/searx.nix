@@ -4,7 +4,7 @@ let
 in
 {
   options.features.service.searx = with lib; {
-    enable = mkEnableOption "enable wireguard";
+    enable = mkEnableOption "enable searx";
     hostName = mkOption { type = types.str; };
   };
 

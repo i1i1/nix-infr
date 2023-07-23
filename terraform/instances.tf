@@ -2,23 +2,8 @@ resource "vultr_dns_domain" "domain" {
   domain = "thatsverys.us"
 }
 
-resource "vultr_instance" "vpn" {
-  label       = "mail"
-  plan        = var.one_cpu_one_gb_ram_25gb_ssd
-  region      = var.europe
-  snapshot_id = var.nixos_snapshot_id_25gb
-  backups     = "disabled"
-}
-
-resource "vultr_dns_record" "a_vpn" {
-  domain = vultr_dns_domain.domain.id
-  name   = "vpn"
-  data   = vultr_instance.vpn.main_ip
-  type   = "A"
-}
-
-resource "vultr_instance" "nextcloud" {
-  label       = "nextcloud"
+resource "vultr_instance" "server" {
+  label       = "server"
   plan        = var.two_cpu_four_gb_ram
   region      = var.europe
   snapshot_id = var.nixos_snapshot_id_100gb_ssd
@@ -31,21 +16,14 @@ resource "vultr_instance" "nextcloud" {
 resource "vultr_dns_record" "a_nextcloud" {
   domain = vultr_dns_domain.domain.id
   name   = "nc"
-  data   = vultr_instance.nextcloud.main_ip
+  data   = vultr_instance.server.main_ip
   type   = "A"
-}
-
-resource "vultr_instance" "searx" {
-  label       = "searx"
-  plan        = var.two_cpu_four_gb_ram
-  region      = var.europe
-  snapshot_id = var.nixos_snapshot_id_100gb_ssd
 }
 
 resource "vultr_dns_record" "a_searx" {
   domain = vultr_dns_domain.domain.id
   name   = "sx"
-  data   = vultr_instance.searx.main_ip
+  data   = vultr_instance.server.main_ip
   type   = "A"
 }
 
