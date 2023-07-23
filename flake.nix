@@ -119,6 +119,7 @@
             ./modules/searx.nix
             ./modules/invidious.nix
             ./modules/libreddit.nix
+            ./modules/vaultwarden.nix
             {
               networking.firewall.allowedTCPPorts = [ 80 443 ];
 
@@ -143,6 +144,10 @@
                   libreddit = {
                     enable = true;
                     hostName = "lr.thatsverys.us";
+                  };
+                  vaultwarden = {
+                    enable = true;
+                    hostName = "vault.thatsverys.us";
                   };
                 };
 

@@ -41,6 +41,13 @@ resource "vultr_dns_record" "a_libreddit" {
   type   = "A"
 }
 
+resource "vultr_dns_record" "a_vaultwarden" {
+  domain = vultr_dns_domain.domain.id
+  name   = "vault"
+  data   = vultr_instance.server.main_ip
+  type   = "A"
+}
+
 # resource "vultr_instance" "mail" {
 #   label       = "mail"
 #   plan        = var.one_cpu_one_gb_ram_25gb_ssd
