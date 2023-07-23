@@ -154,6 +154,17 @@
           deployment.targetHost = "sx.thatsverys.us";
           imports = [
             ./hosts/searx.nix
+            {
+              networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+              security.acme.acceptTerms = true;
+              security.acme.defaults.email = "vanyarybin1@live.ru";
+
+              features.service.searx = {
+                enable = true;
+                hostName = "sx.thatsverys.us";
+              };
+            }
           ];
         };
 
