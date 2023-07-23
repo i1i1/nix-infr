@@ -118,6 +118,7 @@
             ./modules/vpn.nix
             ./modules/searx.nix
             ./modules/invidious.nix
+            ./modules/libreddit.nix
             {
               networking.firewall.allowedTCPPorts = [ 80 443 ];
 
@@ -138,6 +139,10 @@
                   invidious = {
                     enable = true;
                     hostName = "in.thatsverys.us";
+                  };
+                  libreddit = {
+                    enable = true;
+                    hostName = "lr.thatsverys.us";
                   };
                 };
 

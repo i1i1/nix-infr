@@ -34,6 +34,13 @@ resource "vultr_dns_record" "a_invidious" {
   type   = "A"
 }
 
+resource "vultr_dns_record" "a_libreddit" {
+  domain = vultr_dns_domain.domain.id
+  name   = "lr"
+  data   = vultr_instance.server.main_ip
+  type   = "A"
+}
+
 # resource "vultr_instance" "mail" {
 #   label       = "mail"
 #   plan        = var.one_cpu_one_gb_ram_25gb_ssd
