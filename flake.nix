@@ -134,6 +134,18 @@
           deployment.targetHost = "nc.thatsverys.us";
           imports = [
             ./hosts/nextcloud.nix
+            {
+              networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+              security.acme.acceptTerms = true;
+              security.acme.defaults.email = "vanyarybin1@live.ru";
+
+              features.service.nextcloud = {
+                enable = true;
+                serverKeyCommand = [ "rbw" "get" "nextcloud-admin-pass" ];
+                hostName = "nc.thatsverys.us";
+              };
+            }
           ];
         };
 
