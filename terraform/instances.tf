@@ -35,6 +35,20 @@ resource "vultr_dns_record" "a_nextcloud" {
   type   = "A"
 }
 
+resource "vultr_instance" "searx" {
+  label       = "searx"
+  plan        = var.two_cpu_four_gb_ram
+  region      = var.europe
+  snapshot_id = var.nixos_snapshot_id_100gb_ssd
+}
+
+resource "vultr_dns_record" "a_searx" {
+  domain = vultr_dns_domain.domain.id
+  name   = "sx"
+  data   = vultr_instance.searx.main_ip
+  type   = "A"
+}
+
 # resource "vultr_instance" "mail" {
 #   label       = "mail"
 #   plan        = var.one_cpu_one_gb_ram_25gb_ssd

@@ -125,6 +125,14 @@
           ];
         };
 
+        searx = {
+          deployment.targetUser = "nixos";
+          deployment.targetHost = "sx.thatsverys.us";
+          imports = [
+            ./hosts/searx.nix
+          ];
+        };
+
         # mail = {
         #   deployment.targetUser = "nixos";
         #   deployment.targetHost = "mail.thatsverys.us";
