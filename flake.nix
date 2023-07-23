@@ -114,6 +114,18 @@
           deployment.targetHost = "vpn.thatsverys.us";
           imports = [
             ./hosts/vpn.nix
+            {
+              features.vpn.wireguard = {
+                enable = true;
+                serverKeyCommand = [ "rbw" "get" "--folder" "wireguard" "server" ];
+                pubkeys = [
+                  "u6OpMKjB89S25tYjIsUZnGB9Jabu0L0/vQzObTk28HA="
+                  "9s/ZsJg1SIqQmEl0CmyLZs/yGcg/YUwMBbIcCwFRt0g="
+                  "E27NpaVSoPnQ4otoKSz6Yv8c3TQ9vADZPUtuhrprdVg="
+                  "Y5UxdQH5cBPjAbnZ3trCKSLLeB7ubYYWohgKhNM5ukI="
+                ];
+              };
+            }
           ];
         };
 
