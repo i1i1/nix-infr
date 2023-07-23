@@ -117,32 +117,41 @@
             ./modules/nextcloud.nix
             ./modules/vpn.nix
             ./modules/searx.nix
+            ./modules/invidious.nix
             {
               networking.firewall.allowedTCPPorts = [ 80 443 ];
 
               security.acme.acceptTerms = true;
               security.acme.defaults.email = "vanyarybin1@live.ru";
 
-              features.service.nextcloud = {
-                enable = true;
-                serverKeyCommand = [ "rbw" "get" "nextcloud-admin-pass" ];
-                hostName = "nc.thatsverys.us";
-              };
+              features = {
+                service = {
+                  nextcloud = {
+                    enable = true;
+                    serverKeyCommand = [ "rbw" "get" "nextcloud-admin-pass" ];
+                    hostName = "nc.thatsverys.us";
+                  };
+                  searx = {
+                    enable = true;
+                    hostName = "sx.thatsverys.us";
+                  };
+                  invidious = {
+                    enable = true;
+                    hostName = "in.thatsverys.us";
+                  };
+                };
 
-              features.vpn.wireguard = {
-                enable = true;
-                serverKeyCommand = [ "rbw" "get" "--folder" "wireguard" "server" ];
-                pubkeys = [
-                  "u6OpMKjB89S25tYjIsUZnGB9Jabu0L0/vQzObTk28HA="
-                  "9s/ZsJg1SIqQmEl0CmyLZs/yGcg/YUwMBbIcCwFRt0g="
-                  "E27NpaVSoPnQ4otoKSz6Yv8c3TQ9vADZPUtuhrprdVg="
-                  "Y5UxdQH5cBPjAbnZ3trCKSLLeB7ubYYWohgKhNM5ukI="
-                ];
-              };
+                vpn.wireguard = {
+                  enable = true;
+                  serverKeyCommand = [ "rbw" "get" "--folder" "wireguard" "server" ];
+                  pubkeys = [
+                    "u6OpMKjB89S25tYjIsUZnGB9Jabu0L0/vQzObTk28HA="
+                    "9s/ZsJg1SIqQmEl0CmyLZs/yGcg/YUwMBbIcCwFRt0g="
+                    "E27NpaVSoPnQ4otoKSz6Yv8c3TQ9vADZPUtuhrprdVg="
+                    "Y5UxdQH5cBPjAbnZ3trCKSLLeB7ubYYWohgKhNM5ukI="
+                  ];
+                };
 
-              features.service.searx = {
-                enable = true;
-                hostName = "sx.thatsverys.us";
               };
             }
           ];
