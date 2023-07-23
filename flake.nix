@@ -114,13 +114,7 @@
           deployment.targetUser = "nixos";
           deployment.targetHost = "sx.thatsverys.us";
           imports = [
-            ./modules/nextcloud.nix
-            ./modules/vpn.nix
-            ./modules/searx.nix
-            ./modules/invidious.nix
-            ./modules/libreddit.nix
-            ./modules/vaultwarden.nix
-            ./modules/nitter.nix
+            ./modules
             {
               networking.firewall.allowedTCPPorts = [ 80 443 ];
 
