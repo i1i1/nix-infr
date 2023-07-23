@@ -48,6 +48,13 @@ resource "vultr_dns_record" "a_vaultwarden" {
   type   = "A"
 }
 
+resource "vultr_dns_record" "a_nitter" {
+  domain = vultr_dns_domain.domain.id
+  name   = "nitter"
+  data   = vultr_instance.server.main_ip
+  type   = "A"
+}
+
 # resource "vultr_instance" "mail" {
 #   label       = "mail"
 #   plan        = var.one_cpu_one_gb_ram_25gb_ssd

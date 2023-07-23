@@ -120,6 +120,7 @@
             ./modules/invidious.nix
             ./modules/libreddit.nix
             ./modules/vaultwarden.nix
+            ./modules/nitter.nix
             {
               networking.firewall.allowedTCPPorts = [ 80 443 ];
 
@@ -148,6 +149,10 @@
                   vaultwarden = {
                     enable = true;
                     hostName = "vault.thatsverys.us";
+                  };
+                  nitter = {
+                    enable = true;
+                    hostName = "nitter.thatsverys.us";
                   };
                 };
 
