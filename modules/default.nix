@@ -1,7 +1,7 @@
 {
   imports = [
     ./nextcloud.nix
-    ./vpn.nix
+    ./vpn
     ./searx.nix
     ./invidious.nix
     ./libreddit.nix
