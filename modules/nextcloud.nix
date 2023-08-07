@@ -47,11 +47,6 @@ in
 
       # Admin password
       config.adminpassFile = "/run/keys/root";
-
-      phpOptions = {
-        upload_max_filesize = "2G";
-        post_max_size = "2G";
-      };
     };
 
     services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
