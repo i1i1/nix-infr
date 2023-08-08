@@ -52,14 +52,14 @@
         devShells.default = pkgs.mkShell {
           inherit (self.checks.${system}.pre-commit-check) shellHook;
 
-          packages = with pkgs; with  self.packages.${system}; [
+          packages = with pkgs; with self.packages.${system}; [
             colmena
             wireguard-tools
             terraform
             terraform-providers.vultr
             vultr-cli
             deploy-configuration
-            generate-qr-code
+            wg-qr-code
           ];
         };
 
@@ -76,11 +76,11 @@
             '';
           };
 
-          generate-qr-code = writeShellApplication {
-            name = "generate-qr-code";
+          wg-qr-code = writeShellApplication {
+            name = "wg-qr-code";
             checkPhase = ":";
             runtimeInputs = [ colmena jq qrencode rbw ];
-            text = builtins.readFile ./generate-qr-code.sh;
+            text = builtins.readFile ./scripts/wg-qr-code.sh;
           };
         };
 
@@ -89,9 +89,9 @@
             type = "app";
             program = "${self.packages.${system}.deploy-configuration}/bin/deploy-configuration";
           };
-          generate-qr-code = {
+          wg-qr-code = {
             type = "app";
-            program = "${self.packages.${system}.generate-qr-code}/bin/generate-qr-code";
+            program = "${self.packages.${system}.wg-qr-code}/bin/wg-qr-code";
           };
         };
 
